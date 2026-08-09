@@ -21,18 +21,22 @@ export type MarketRates = {
   ts: number;
   updatedAt: string;   // hh:mm:ss
   online: boolean;
+  /** true when the displayed numbers come from cache, not a live fetch. */
+  stale: boolean;
   loading: boolean;
   flash: "up" | "down" | "none";
 };
 
 const CACHE_KEY = "idpi.rates.cache";
+// NOTE: no invented price here. Until a real quote (live or cached) arrives,
+// piUsd/usdIdr stay 0 and consumers must render "--" instead of a fake rate.
 const FALLBACK: MarketRates = {
   ok: false,
-  piUsd: 0.642135,
-  usdIdr: 16258,
+  piUsd: 0,
+  usdIdr: 0,
   change24h: 0, high24h: 0, low24h: 0, vol24h: 0,
   ts: 0, updatedAt: "--:--:--",
-  online: false, loading: false, flash: "none",
+  online: false, stale: false, loading: false, flash: "none",
 };
 
 let STATE: MarketRates = FALLBACK;
@@ -57,7 +61,7 @@ function loadCache() {
       STATE = {
         ...FALLBACK, ...c,
         updatedAt: c.ts ? new Date(c.ts).toTimeString().slice(0, 8) : "--:--:--",
-        online: false, loading: false, flash: "none",
+        online: false, stale: true, loading: false, flash: "none",
       };
       lastPi = c.piUsd;
       setLivePiUsd(c.piUsd);
@@ -85,17 +89,17 @@ export async function refreshMarket() {
         low24h: j.low24h ?? 0,
         vol24h: j.vol24h ?? 0,
         ts, updatedAt: new Date(ts).toTimeString().slice(0, 8),
-        online: true, loading: false, flash,
+        online: true, stale: false, loading: false, flash,
       };
       STATE = next;
       emit();
       try { localStorage.setItem(CACHE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
       setTimeout(() => { if (STATE.flash !== "none") set({ flash: "none" }); }, 900);
     } else {
-      set({ online: false, loading: false });
+      set({ online: false, stale: STATE.ts > 0, loading: false });
     }
   } catch {
-    set({ online: false, loading: false });
+    set({ online: false, stale: STATE.ts > 0, loading: false });
   }
 }
 
