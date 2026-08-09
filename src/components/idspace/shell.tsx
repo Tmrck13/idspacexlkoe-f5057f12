@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { MenuDrawer, SettingsDialog } from "@/components/idspace/menu-drawer";
 import { useSettings, useTap } from "@/lib/app-settings";
 import { PiAuthWidget } from "@/components/idspace/pi-auth-widget";
+import { useAccount } from "@/lib/account-store";
 import { useNotifications } from "@/lib/notification-store";
 import { useAnnouncements } from "@/components/idspace/announcements";
 
@@ -123,18 +124,22 @@ const NAV: Array<{ icon: typeof Home; label: string; to?: string }> = [
 
 export function Sidebar({ active }: { active: string }) {
   const { unreadCount } = useNotifications();
+  // Real signed-in identity (guest state when nobody is signed in).
+  const account = useAccount();
   return (
     <aside className="hidden lg:flex sticky top-0 h-screen w-64 shrink-0 flex-col gap-4 p-4"
       style={{ background: "linear-gradient(180deg, rgba(11,26,18,.9), rgba(5,8,6,.95))",
         borderRight: "1px solid rgba(255,215,106,.15)" }}>
       <div className="glass-card flex flex-col items-center gap-2 p-4">
         <div className="anim-pulse-glow rounded-full p-[3px]" style={{ background: "linear-gradient(135deg, #FFD76A, #56FF76)" }}>
-          <img src={avatar} alt="Rocky San" className="h-20 w-20 rounded-full object-cover" />
+          <img src={account.avatar ?? avatar} alt={account.displayName} className="h-20 w-20 rounded-full object-cover" />
         </div>
-        <div className="mt-2 text-lg font-semibold text-white">Rocky San</div>
+        <div className="mt-2 text-lg font-semibold text-white">
+          {account.loading ? "…" : account.displayName}
+        </div>
         <div className="flex items-center gap-1 text-xs">
           <Crown className="h-3.5 w-3.5" style={{ color: "#FFD76A" }}/>
-          <span className="gold-text">Level 15 · Sultan</span>
+          <span className="gold-text">{account.signedIn ? account.membership : "Not signed in"}</span>
         </div>
       </div>
       <div className="glass-card flex items-center gap-3 p-3">
@@ -142,7 +147,9 @@ export function Sidebar({ active }: { active: string }) {
           <span className="text-lg font-bold" style={{ color: "#FFD76A" }}>π</span>
         </GoldRing>
         <div>
-          <div className="text-base font-semibold gold-shimmer">4,523.78</div>
+          <div className="text-base font-semibold gold-shimmer">
+            {account.signedIn ? account.idpointsBalance.toLocaleString("en-US", { maximumFractionDigits: 2 }) : "--"}
+          </div>
           <div className="text-[10px] uppercase tracking-widest text-emerald-300/70">IDPoints</div>
         </div>
       </div>
