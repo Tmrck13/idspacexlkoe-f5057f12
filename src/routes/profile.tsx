@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { AppShell, SectionTitle, GoldRing } from "@/components/idspace/shell";
 import { useSettings, useTap, LANGS } from "@/lib/app-settings";
 import { useIdpointsBalance } from "@/lib/idpoints-store";
+import { useAccount } from "@/lib/account-store";
 import avatar from "@/assets/avatar.jpg";
 
 export const Route = createFileRoute("/profile")({
@@ -28,17 +29,22 @@ const LEVEL_COLORS: Record<string, string> = {
   Platinum: "#E5E4E2", Diamond: "#B9F2FF", VIP: "#56FF76", Administrator: "#FF9F76",
 };
 
-/* Demo user data — in production this comes from Pi Auth + backend */
+/**
+ * Shape/placeholder only. These values are NEVER shown as a real user: when a
+ * session exists every field below is overwritten from `useAccount()` (Supabase
+ * profile + ledger-backed wallet). When nobody is signed in the UI shows the
+ * neutral guest values.
+ */
 const DEMO_USER = {
-  name: "Rocky San",
-  username: "@rocky.san.pi",
-  memberId: "IDPI-20250001",
-  walletAddress: "GC5X...7K2M",
-  fullWallet: "GC5XKAQEDLNPTJQZFBFNACUMHCPQLJQVJQHXW4JY7K2M",
-  membership: "Gold",
-  level: 15,
-  rank: "Sultan",
-  registeredAt: "2025-01-01",
+  name: "Guest",
+  username: "—",
+  memberId: "—",
+  walletAddress: "—",
+  fullWallet: "",
+  membership: "Bronze",
+  level: 1,
+  rank: "Member",
+  registeredAt: "—",
   piBalance: "0.00000000",
 };
 
@@ -47,14 +53,29 @@ type Section = "overview" | "edit" | "card" | "membership" | "wallet" | "securit
 function ProfilePage() {
   const { t } = useSettings();
   const tap = useTap();
-  const { balance } = useIdpointsBalance();
+  const { balance: localBalance } = useIdpointsBalance();
+  const account = useAccount();
   const [section, setSection] = useState<Section>("overview");
   const [copied, setCopied] = useState(false);
-  const [editName, setEditName] = useState(DEMO_USER.name);
+  const [editName, setEditName] = useState<string | null>(null);
+
+  // Real identity wins over the placeholder shape whenever a session exists.
+  const user = account.signedIn
+    ? {
+        ...DEMO_USER,
+        name: editName ?? account.displayName,
+        username: account.username ? `@${account.username}` : "—",
+        memberId: account.memberId ?? "—",
+        membership: account.membership,
+        piBalance: account.piBalance.toFixed(8),
+      }
+    : { ...DEMO_USER, name: editName ?? DEMO_USER.name };
+  const balance = account.signedIn ? account.idpointsBalance : localBalance;
 
   const copyAddress = async () => {
     try {
-      await navigator.clipboard.writeText(DEMO_USER.fullWallet);
+      if (!user.fullWallet) { toast.error("No wallet address on file yet"); return; }
+      await navigator.clipboard.writeText(user.fullWallet);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       toast.success(t("common.copied"));
@@ -63,16 +84,16 @@ function ProfilePage() {
 
   const renderSection = () => {
     switch (section) {
-      case "edit": return <EditProfile name={editName} setName={setEditName} onBack={() => setSection("overview")} />;
-      case "card": return <IslamicCard user={DEMO_USER} balance={balance} onBack={() => setSection("overview")} />;
-      case "membership": return <MembershipSection user={DEMO_USER} balance={balance} onBack={() => setSection("overview")} />;
-      case "wallet": return <WalletSection user={DEMO_USER} balance={balance} copied={copied} onCopy={copyAddress} onBack={() => setSection("overview")} />;
+      case "edit": return <EditProfile name={user.name} setName={setEditName} onBack={() => setSection("overview")} />;
+      case "card": return <IslamicCard user={user} balance={balance} onBack={() => setSection("overview")} />;
+      case "membership": return <MembershipSection user={user} balance={balance} onBack={() => setSection("overview")} />;
+      case "wallet": return <WalletSection user={user} balance={balance} copied={copied} onCopy={copyAddress} onBack={() => setSection("overview")} />;
       case "security": return <SecuritySection onBack={() => setSection("overview")} />;
       case "help": return <HelpSection onBack={() => setSection("overview")} />;
       case "about": return <AboutSection onBack={() => setSection("overview")} />;
       default: return (
         <Overview
-          user={{ ...DEMO_USER, name: editName }}
+          user={user}
           balance={balance}
           t={t}
           tap={tap}
@@ -219,7 +240,7 @@ function EditProfile({ name, setName, onBack }: { name: string; setName: (n: str
   const { t } = useSettings();
   const tap = useTap();
   const [localName, setLocalName] = useState(name);
-  const [localUsername, setLocalUsername] = useState("rocky.san.pi");
+  const [localUsername, setLocalUsername] = useState("");
   const [localBio, setLocalBio] = useState("Pi Pioneer · Islamic Finance Enthusiast");
 
   const save = () => {
