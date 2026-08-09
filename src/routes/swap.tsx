@@ -296,13 +296,13 @@ function SidePanel({
           {SYM[ccy]}
         </span>
         {readOnly ? (
-          <div className="flex-1 font-mono text-xl" style={{ color: COLOR[ccy] }}>{amount}</div>
+          <div className="min-w-0 flex-1 truncate font-mono text-xl" style={{ color: COLOR[ccy] }}>{amount}</div>
         ) : (
           <input
             inputMode="decimal"
             value={amount}
             onChange={(e) => setAmount?.(e.target.value.replace(/[^\d.,]/g, ""))}
-            className="flex-1 bg-transparent font-mono text-xl text-white outline-none"
+            className="min-w-0 flex-1 bg-transparent font-mono text-xl text-white outline-none"
             placeholder="0.00"
           />
         )}
@@ -310,7 +310,7 @@ function SidePanel({
           value={ccy}
           onChange={(e) => setCcy?.(e.target.value as Ccy)}
           disabled={!setCcy}
-          className="rounded-lg px-2 py-1.5 text-xs text-white outline-none"
+          className="shrink-0 rounded-lg px-2 py-1.5 text-xs text-white outline-none"
           style={{ background: "rgba(5,8,6,.9)", border: "1px solid rgba(255,215,106,.35)" }}
         >
           {CCYS.map((c) => (

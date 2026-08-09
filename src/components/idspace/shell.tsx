@@ -79,10 +79,10 @@ export function HexIcon({ children }: { children: ReactNode }) {
 
 export function SectionTitle({ icon, title, right }: { icon: ReactNode; title: string; right?: ReactNode }) {
   return (
-    <div className="mb-3 flex items-center justify-between">
+    <div className="mb-3 flex items-center justify-between gap-2">
       <div className="flex items-center gap-2">
         <span style={{ color: "#56FF76" }}>{icon}</span>
-        <h2 className="text-sm font-semibold tracking-[.28em] gold-text uppercase">{title}</h2>
+        <h2 className="truncate text-sm font-semibold tracking-[.28em] gold-text uppercase">{title}</h2>
       </div>
       {right}
     </div>
