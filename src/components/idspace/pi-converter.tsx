@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowLeftRight, RefreshCw, Sparkles } from "lucide-react";
 import { SectionTitle } from "@/components/idspace/shell";
-import { setLivePiUsd } from "@/lib/app-settings";
+import { useMarket, refreshMarket } from "@/lib/market-store";
 
 /**
  * Dynamic single-column Pi Converter.
- * Live PI/USDT price from OKX public market API.
+ * Price comes from the shared market-data store (/api/public/rates), the same
+ * source used by Home, Market and Swap — never a second/divergent quote.
  * Fiat cross-rates (IDR, EUR, KRW, CNY, INR, SAR) derived from a
  * lightweight base table against USD; PI leg is always live.
  */
@@ -21,7 +22,7 @@ const COLOR: Record<Ccy, string> = {
   KRW: "#C7A6FF", CNY: "#FF9F76", INR: "#FFB86A", SAR: "#56FFB6",
 };
 
-// Approximate USD→X (used as fallback + fiat legs). Only PI leg is live.
+// Static USD→X cross-rates for the fiat legs (PI and USD→IDR use live data).
 const USD_TO: Record<Exclude<Ccy, "PI">, number> = {
   USD: 1, IDR: 19906, EUR: 0.92, KRW: 1370, CNY: 7.22, INR: 83.4, SAR: 3.75,
 };
@@ -58,32 +59,13 @@ function fromUsd(usd: number, ccy: Ccy, piUsd: number): number {
 export function PiConverter() {
   const [pairIdx, setPairIdx] = useState(0);
   const [amount, setAmount] = useState<string>("1");
-  const [piUsd, setPiUsd] = useState<number>(0.089135);
-  const [updated, setUpdated] = useState<string>("--:--:--");
-  const [loading, setLoading] = useState(false);
+  const market = useMarket();
+  const piUsd = market.piUsd;
+  const updated = market.updatedAt;
+  const loading = market.loading;
 
   const pair = PAIRS[pairIdx];
-
-  const fetchPrice = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("https://www.okx.com/api/v5/market/ticker?instId=PI-USDT");
-      const j = await res.json();
-      const last = parseFloat(j?.data?.[0]?.last);
-      if (isFinite(last) && last > 0) { setPiUsd(last); setLivePiUsd(last); }
-      setUpdated(new Date().toTimeString().slice(0, 8));
-    } catch {
-      setUpdated(new Date().toTimeString().slice(0, 8));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPrice();
-    const t = setInterval(fetchPrice, 30000);
-    return () => clearInterval(t);
-  }, []);
+  const fetchPrice = () => { void refreshMarket(); };
 
   const result = useMemo(() => {
     const n = parseFloat(amount.replace(/,/g, "")) || 0;
@@ -188,7 +170,8 @@ export function PiConverter() {
           Source: OKX · PI/USDT
         </span>
         <span className="text-emerald-100/70">
-          1 PI = <span className="gold-text">${piUsd.toFixed(6)}</span>
+          1 PI = <span className="gold-text">{piUsd > 0 ? `$${piUsd.toFixed(6)}` : "--"}</span>
+          {piUsd > 0 && !market.online && <span className="ml-1 text-[10px] text-amber-300/80">(cached)</span>}
         </span>
         <button
           onClick={fetchPrice}

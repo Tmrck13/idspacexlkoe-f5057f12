@@ -91,8 +91,9 @@ function LivePiMarket() {
   const date = now ? now.toDateString().split(" ").slice(1).join(" ") : "";
   const { fmt } = useSettings();
   const m = useMarket();
-  const piUsd = m.piUsd || 0.089135;
-  const usdIdr = m.usdIdr || 19906;
+  // No invented fallback: when the feed is unavailable we show "--" instead.
+  const piUsd = m.piUsd;
+  const usdIdr = m.usdIdr;
   const piIdr = piUsd * usdIdr;
   const changeStr = `${m.change24h >= 0 ? "+" : ""}${m.change24h.toFixed(2)}%`;
   const changeColor = m.change24h >= 0 ? "#56FF76" : "#FF7676";
@@ -110,7 +111,7 @@ function LivePiMarket() {
         <div className="glass-card p-4">
           <div className="text-[11px] tracking-widest text-emerald-200/70">PI PRICE</div>
           <div className="mt-1 flex items-baseline justify-between">
-            <span className="text-2xl font-semibold emerald-text">{fmt(piUsd)}</span>
+            <span className="text-2xl font-semibold emerald-text">{piUsd > 0 ? fmt(piUsd) : "--"}</span>
             <span className="text-xs" style={{color: changeColor}}>{changeStr} {m.change24h >= 0 ? "↑" : "↓"}</span>
           </div>
           <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
@@ -150,7 +151,7 @@ function QuickStats() {
   const { fmt } = useSettings();
   const m = useMarket();
   const items = [
-    { icon: <BarChart3 className="h-5 w-5"/>, label: "Pi Price", value: fmt(m.piUsd || 0), color: "#56FF76" },
+    { icon: <BarChart3 className="h-5 w-5"/>, label: "Pi Price", value: m.piUsd > 0 ? fmt(m.piUsd) : "--", color: "#56FF76" },
     { icon: m.change24h >= 0 ? <TrendingUp className="h-5 w-5"/> : <TrendingDown className="h-5 w-5"/>, label: "Change 24H", value: `${m.change24h >= 0 ? "+" : ""}${m.change24h.toFixed(2)}%`, color: m.change24h >= 0 ? "#56FF76" : "#FF7676" },
     { icon: <BarChart3 className="h-5 w-5"/>, label: "24H High", value: fmt(m.high24h || 0), color: "#FFD76A" },
     { icon: <TrendingDown className="h-5 w-5"/>, label: "24H Low", value: fmt(m.low24h || 0), color: "#FF9F76" },
@@ -209,7 +210,7 @@ function Portfolio() {
   const tap = useTap();
   const { balance } = useIdpointsBalance();
   const m = useMarket();
-  const idpUsd = (balance / 9) / (m.usdIdr || 19906);
+  const idpUsd = m.usdIdr > 0 ? (balance / 9) / m.usdIdr : 0;
   return (
     <div className="glass-card p-4">
       <SectionTitle icon={<LineChartIcon className="h-4 w-4"/>} title="PORTFOLIO OVERVIEW"/>

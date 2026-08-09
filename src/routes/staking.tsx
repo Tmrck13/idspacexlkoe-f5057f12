@@ -70,11 +70,11 @@ function StakingPage() {
               inputMode="numeric"
               value={amount}
               onChange={(e) => setAmount(e.target.value.replace(/[^\d]/g, ""))}
-              className="flex-1 bg-transparent font-mono text-xl text-white outline-none"
+              className="min-w-0 flex-1 bg-transparent font-mono text-xl text-white outline-none"
               placeholder="0"
             />
             <button onClick={() => setAmount(String(balance))}
-                    className="rounded-full gold-border px-3 py-1 text-[11px] gold-text">MAX</button>
+                    className="shrink-0 rounded-full gold-border px-3 py-1 text-[11px] gold-text">MAX</button>
           </div>
           <div className="mt-3 grid grid-cols-2 gap-3 text-xs">
             <Est label="Est. Daily Reward" value={`+${estDay.toLocaleString()} IDP`}/>
@@ -124,7 +124,7 @@ function StakingPage() {
                           const r = claim(s.id);
                           if (r.ok) toast.success(`+${r.reward} IDPoints`);
                           else toast("No reward to claim yet");
-                        }} className="rounded-full gold-border px-3 py-1 text-[11px] gold-text">
+                        }} className="shrink-0 rounded-full gold-border px-3 py-1 text-[11px] gold-text">
                           Claim
                         </button>
                         <button onClick={() => {
