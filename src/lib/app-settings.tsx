@@ -36,8 +36,10 @@ export const CURRENCIES: { code: Currency; symbol: string; label: string }[] = [
 export const USD_RATES: Record<Exclude<Currency, "PI">, number> = {
   USD: 1, IDR: 16258, EUR: 0.92, KRW: 1370, CNY: 7.22, INR: 83.4, SAR: 3.75,
 };
-/* Fallback live PI/USD used when converter has not fetched yet. */
-let LAST_PI_USD = 0.642135;
+/* Live PI/USD mirror, fed only by the centralized market store
+   (src/lib/market-store.ts). 0 means "no real quote yet" — consumers must
+   render "--" instead of inventing a price. */
+let LAST_PI_USD = 0;
 export function setLivePiUsd(v: number) { if (isFinite(v) && v > 0) LAST_PI_USD = v; }
 export function getLivePiUsd() { return LAST_PI_USD; }
 
