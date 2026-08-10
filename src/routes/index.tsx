@@ -282,7 +282,7 @@ function DailyCheckin() {
         <div className="relative grid h-32 w-32 place-items-center rounded-2xl anim-float"
           style={{ background: "linear-gradient(180deg, #6b4a10, #2a1a05)", border:"1.5px solid #FFD76A",
             boxShadow:"0 0 30px rgba(255,215,106,.5), inset 0 0 20px rgba(255,215,106,.3)" }}>
-          <div className="text-4xl">\ud83e\ude99</div>
+          <div className="text-4xl">🪙</div>
         </div>
         <div className="mt-3 text-xs text-emerald-100/60">Day {status.nextDay} Reward</div>
         <div className="gold-shimmer text-lg font-semibold">Up to 3,600 IDPoints</div>
