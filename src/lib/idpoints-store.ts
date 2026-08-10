@@ -280,56 +280,15 @@ export function rejectWithdraw(txId: string): void {
   setState({ balance: nb, txs: updatedTxs });
 }
 
-/* ---------------- Daily Check-In ---------------- */
-const DAY_MS = 24 * 60 * 60 * 1000;
+/* ---------------- Daily Check-In ----------------
+ * REMOVED ON PURPOSE. Daily check-in is now server-authoritative:
+ *   status  -> public.daily_checkin_status()
+ *   claim   -> public.claim_daily_checkin()  (atomic, ledger-backed)
+ * Use `useServerCheckin()` from "@/lib/checkin-store".
+ * Never reintroduce a localStorage streak/claim path — it would allow
+ * clients to self-grant IDPoints and diverge from the ledger.
+ */
 
-export function useCheckin() {
-  const state = useSlice((s) => s.checkin);
-
-  const persist = useCallback((next: CheckinState) => {
-    write(K_CHK, next);
-    setState({ checkin: next });
-  }, []);
-
-  const evaluate = useCallback(() => {
-    const s = STATE.checkin;
-    const now = Date.now();
-    const delta = now - s.lastClaimAt;
-    if (!s.lastClaimAt) return { canClaim: true, nextDay: 1, resets: false, msLeft: 0 };
-    if (s.streak >= 7) {
-      const msLeft = Math.max(0, DAY_MS - delta);
-      return { canClaim: msLeft === 0, nextDay: 1, resets: true, msLeft };
-    }
-    if (delta > 2 * DAY_MS) return { canClaim: true, nextDay: 1, resets: true, msLeft: 0 };
-    if (delta < DAY_MS) return { canClaim: false, nextDay: s.streak + 1, resets: false, msLeft: DAY_MS - delta };
-    return { canClaim: true, nextDay: s.streak + 1, resets: false, msLeft: 0 };
-  }, []);
-
-  const claim = useCallback((amount: number) => {
-    const info = evaluate();
-    if (!info.canClaim) return { ok: false as const, reason: "cooldown" };
-    const day = info.nextDay;
-    const startingStreak = info.resets ? 0 : STATE.checkin.streak;
-    const nextStreak = startingStreak + 1;
-    const cyclesCompleted = nextStreak === 7
-      ? STATE.checkin.cyclesCompleted + 1
-      : STATE.checkin.cyclesCompleted;
-    persist({
-      streak: nextStreak,
-      lastClaimAt: Date.now(),
-      cyclesCompleted,
-      history: [{ day, amount, at: Date.now() }, ...STATE.checkin.history].slice(0, 30),
-    });
-    // credit balance + record transaction
-    const nextBal = Math.max(0, Math.round(STATE.balance + amount));
-    write(K_BAL, nextBal);
-    setState({ balance: nextBal });
-    logTx("checkin", amount, `Daily check-in · Day ${day}`);
-    return { ok: true as const, day, amount, cycleCompleted: nextStreak === 7 };
-  }, [evaluate, persist]);
-
-  return { state, evaluate, claim };
-}
 
 /* ---------------- Swap history ---------------- */
 export function useSwapHistory() {
