@@ -315,7 +315,9 @@ export function useSwapHistory() {
 
 /* ---------------- Staking ---------------- */
 const APR_BPS = 1200; // 12% APR demo
+const DAY_MS = 24 * 60 * 60 * 1000;
 const YEAR_MS = 365 * DAY_MS;
+
 
 export function computeStakeReward(stake: StakeEntry, now = Date.now()) {
   const elapsed = Math.max(0, now - stake.claimedAt);
