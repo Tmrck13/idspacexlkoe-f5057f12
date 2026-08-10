@@ -7,8 +7,10 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, SectionTitle, GoldRing } from "@/components/idspace/shell";
+import { useServerCheckin } from "@/lib/checkin-store";
+import { useAccount } from "@/lib/account-store";
 import {
-  useIdpointsBalance, useSwapHistory, useTransactions, useCheckin,
+  useIdpointsBalance, useSwapHistory, useTransactions,
   createPendingDeposit, confirmDeposit, cancelDeposit,
   createPendingWithdraw,
   type TxStatus,
@@ -40,10 +42,13 @@ type DepositStep = "select" | "pay" | "verifying" | "done";
 type WithdrawStep = "form" | "confirming" | "done";
 
 function WalletPage() {
-  const { balance } = useIdpointsBalance();
+  const { balance: localBalance } = useIdpointsBalance();
+  const account = useAccount();
+  // Signed-in users see the ledger-backed wallet balance, not localStorage.
+  const balance = account.signedIn ? account.idpointsBalance : localBalance;
   const { txs } = useTransactions();
   const { items: swaps } = useSwapHistory();
-  const { state: checkin } = useCheckin();
+  const { status: checkin } = useServerCheckin();
   const m = useMarket();
 
   const idrValue = useMemo(() => Math.floor(balance / 9), [balance]);
@@ -240,10 +245,10 @@ function WalletPage() {
             right={<Link to="/checkin" className="text-[11px] gold-text hover:underline">Open Check-In</Link>}/>
           {checkin.history.length === 0 ? <Empty>No rewards claimed yet.</Empty> : (
             <ul className="space-y-2">
-              {checkin.history.slice(0, 10).map((r) => (
+              {checkin.history.slice(0, 10).map((r: { day: number; amount: number; at: string }) => (
                 <li key={r.at} className="flex items-center justify-between rounded-lg px-3 py-2 text-xs"
                     style={{ background: "rgba(5,8,6,.5)", border: "1px solid rgba(255,215,106,.12)" }}>
-                  <span className="text-white">Day {r.day} · <span className="gold-text">+{r.amount.toLocaleString()}</span> IDPoints</span>
+                  <span className="text-white">Day {r.day} · <span className="gold-text">+{Number(r.amount).toLocaleString()}</span> IDPoints</span>
                   <span className="text-emerald-100/50">{new Date(r.at).toLocaleString()}</span>
                 </li>
               ))}

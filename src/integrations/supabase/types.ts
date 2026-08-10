@@ -905,6 +905,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      checkin_reward_for_day: { Args: { _day: number }; Returns: number }
+      claim_daily_checkin: { Args: never; Returns: Json }
+      daily_checkin_status: { Args: never; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

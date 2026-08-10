@@ -16,7 +16,9 @@ import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useSettings, useTap } from "@/lib/app-settings";
 import { useMarket } from "@/lib/market-store";
-import { useCheckin, useIdpointsBalance } from "@/lib/idpoints-store";
+import { useIdpointsBalance } from "@/lib/idpoints-store";
+import { msUntil, useServerCheckin } from "@/lib/checkin-store";
+import { useAccount } from "@/lib/account-store";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -208,7 +210,10 @@ function FeatureGrid() {
 function Portfolio() {
   const { fmt } = useSettings();
   const tap = useTap();
-  const { balance } = useIdpointsBalance();
+  const { balance: localBalance } = useIdpointsBalance();
+  const account = useAccount();
+  // Signed-in users see the ledger-backed wallet balance.
+  const balance = account.signedIn ? account.idpointsBalance : localBalance;
   const m = useMarket();
   const idpUsd = m.usdIdr > 0 ? (balance / 9) / m.usdIdr : 0;
   return (
@@ -246,16 +251,19 @@ function Portfolio() {
 
 function DailyCheckin() {
   const tap = useTap();
-  const { state, evaluate } = useCheckin();
-  const [, setTick] = useState(0);
+  // Server-authoritative streak/eligibility — no localStorage.
+  const { signedIn, status } = useServerCheckin();
+  const [tick, setTick] = useState(0);
   useEffect(() => {
     const t = setInterval(() => setTick((n) => n + 1), 1000);
     return () => clearInterval(t);
   }, []);
-  const info = evaluate();
+  const canClaim = signedIn && status.canClaim;
   const countdown = (() => {
-    if (info.canClaim) return "Ready";
-    const s = Math.floor(info.msLeft / 1000);
+    if (!signedIn) return "Sign in";
+    if (canClaim) return "Ready";
+    const s = Math.floor(msUntil(status.nextClaimAt, status.serverNow) / 1000);
+    void tick;
     const h = String(Math.floor(s / 3600)).padStart(2, "0");
     const m = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
     const sec = String(s % 60).padStart(2, "0");
@@ -265,7 +273,7 @@ function DailyCheckin() {
     <div className="glass-card flex flex-col p-4">
       <SectionTitle icon={<Trophy className="h-4 w-4"/>} title="DAILY CHECK-IN"/>
       <div className="flex justify-between text-xs text-emerald-100/60">
-        <div><div>Streak</div><div className="mt-1 text-white text-base font-semibold">{state.streak}/7 Days</div></div>
+        <div><div>Streak</div><div className="mt-1 text-white text-base font-semibold">{status.streak}/{status.cycleDays || 7} Days</div></div>
         <div className="text-right"><div>Next Reward</div><div className="mt-1 gold-text text-base font-semibold">{countdown}</div></div>
       </div>
       <div className="relative my-4 grid place-items-center">
@@ -276,12 +284,12 @@ function DailyCheckin() {
             boxShadow:"0 0 30px rgba(255,215,106,.5), inset 0 0 20px rgba(255,215,106,.3)" }}>
           <div className="text-4xl">🪙</div>
         </div>
-        <div className="mt-3 text-xs text-emerald-100/60">Day {info.nextDay} Reward</div>
+        <div className="mt-3 text-xs text-emerald-100/60">Day {status.nextDay} Reward</div>
         <div className="gold-shimmer text-lg font-semibold">Up to 3,600 IDPoints</div>
       </div>
       <Link to="/checkin" onClick={tap}
         className="mt-auto rounded-lg gold-border py-2 text-sm gold-text text-center transition active:scale-[.98] hover:-translate-y-0.5">
-        {info.canClaim ? "Claim Now" : "Open Check-In"}
+        {canClaim ? "Claim Now" : "Open Check-In"}
       </Link>
     </div>
   );
