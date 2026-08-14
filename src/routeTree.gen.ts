@@ -9,106 +9,42 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as CheckinRouteImport } from './routes/checkin'
-import { Route as CommunityRouteImport } from './routes/community'
-import { Route as EntertainmentRouteImport } from './routes/entertainment'
-import { Route as MarketplaceRouteImport } from './routes/marketplace'
-import { Route as McpRouteImport } from './routes/mcp'
-import { Route as NotificationsRouteImport } from './routes/notifications'
-import { Route as PremiumRouteImport } from './routes/premium'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as StakingRouteImport } from './routes/staking'
-import { Route as SwapRouteImport } from './routes/swap'
-import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WalletRouteImport } from './routes/wallet'
-import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
-import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedAdminConfigRouteImport } from './routes/_authenticated/admin-config'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SwapRouteImport } from './routes/swap'
+import { Route as StakingRouteImport } from './routes/staking'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PremiumRouteImport } from './routes/premium'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as McpRouteImport } from './routes/mcp'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
+import { Route as EntertainmentRouteImport } from './routes/entertainment'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CheckinRouteImport } from './routes/checkin'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPiConfigRouteImport } from './routes/api/pi-config'
-import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
-import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
-import { Route as ApiAuthPiRouteImport } from './routes/api/auth.pi'
-import { Route as ApiPublicRatesRouteImport } from './routes/api/public/rates'
+import { Route as AuthenticatedAdminConfigRouteImport } from './routes/_authenticated/admin-config'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ApiPublicRewardsConfigRouteImport } from './routes/api/public/rewards-config'
-import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi/approve'
-import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi/complete'
-import { Route as ApiPublicPiIncompleteRouteImport } from './routes/api/public/pi/incomplete'
-import { Route as ApiPublicPiReconcileRouteImport } from './routes/api/public/pi/reconcile'
-import { Route as ApiPublicPiRewardsRouteImport } from './routes/api/public/pi/rewards'
+import { Route as ApiPublicRatesRouteImport } from './routes/api/public/rates'
+import { Route as ApiAuthPiRouteImport } from './routes/api/auth.pi'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicPiStatusRouteImport } from './routes/api/public/pi/status'
+import { Route as ApiPublicPiRewardsRouteImport } from './routes/api/public/pi/rewards'
+import { Route as ApiPublicPiReconcileRouteImport } from './routes/api/public/pi/reconcile'
+import { Route as ApiPublicPiIncompleteRouteImport } from './routes/api/public/pi/incomplete'
+import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi/complete'
+import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi/approve'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CheckinRoute = CheckinRouteImport.update({
-  id: '/checkin',
-  path: '/checkin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommunityRoute = CommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EntertainmentRoute = EntertainmentRouteImport.update({
-  id: '/entertainment',
-  path: '/entertainment',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MarketplaceRoute = MarketplaceRouteImport.update({
-  id: '/marketplace',
-  path: '/marketplace',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NotificationsRoute = NotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PremiumRoute = PremiumRouteImport.update({
-  id: '/premium',
-  path: '/premium',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StakingRoute = StakingRouteImport.update({
-  id: '/staking',
-  path: '/staking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SwapRoute = SwapRouteImport.update({
-  id: '/swap',
-  path: '/swap',
+const WalletRoute = WalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -116,27 +52,79 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WalletRoute = WalletRouteImport.update({
-  id: '/wallet',
-  path: '/wallet',
+const SwapRoute = SwapRouteImport.update({
+  id: '/swap',
+  path: '/swap',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotmcpChar93ListToolsRoute =
-  Char91DotmcpChar93ListToolsRouteImport.update({
-    id: '/.mcp/list-tools',
-    path: '/.mcp/list-tools',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char91DotwellKnownChar93OauthProtectedResourceRoute =
-  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
-    id: '/.well-known/oauth-protected-resource',
-    path: '/.well-known/oauth-protected-resource',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const StakingRoute = StakingRouteImport.update({
+  id: '/staking',
+  path: '/staking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PremiumRoute = PremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntertainmentRoute = EntertainmentRouteImport.update({
+  id: '/entertainment',
+  path: '/entertainment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckinRoute = CheckinRouteImport.update({
+  id: '/checkin',
+  path: '/checkin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPiConfigRoute = ApiPiConfigRouteImport.update({
+  id: '/api/pi-config',
+  path: '/api/pi-config',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminConfigRoute =
   AuthenticatedAdminConfigRouteImport.update({
@@ -144,14 +132,36 @@ const AuthenticatedAdminConfigRoute =
     path: '/admin-config',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const ApiPiConfigRoute = ApiPiConfigRouteImport.update({
-  id: '/api/pi-config',
-  path: '/api/pi-config',
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicRewardsConfigRoute = ApiPublicRewardsConfigRouteImport.update({
+  id: '/api/public/rewards-config',
+  path: '/api/public/rewards-config',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
-  id: '/.lovable/oauth/consent',
-  path: '/.lovable/oauth/consent',
+const ApiPublicRatesRoute = ApiPublicRatesRouteImport.update({
+  id: '/api/public/rates',
+  path: '/api/public/rates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthPiRoute = ApiAuthPiRouteImport.update({
+  id: '/api/auth/pi',
+  path: '/api/auth/pi',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
@@ -160,39 +170,14 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiAuthPiRoute = ApiAuthPiRouteImport.update({
-  id: '/api/auth/pi',
-  path: '/api/auth/pi',
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicRatesRoute = ApiPublicRatesRouteImport.update({
-  id: '/api/public/rates',
-  path: '/api/public/rates',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicRewardsConfigRoute = ApiPublicRewardsConfigRouteImport.update({
-  id: '/api/public/rewards-config',
-  path: '/api/public/rewards-config',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
-  id: '/api/public/pi/approve',
-  path: '/api/public/pi/approve',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
-  id: '/api/public/pi/complete',
-  path: '/api/public/pi/complete',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiIncompleteRoute = ApiPublicPiIncompleteRouteImport.update({
-  id: '/api/public/pi/incomplete',
-  path: '/api/public/pi/incomplete',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiReconcileRoute = ApiPublicPiReconcileRouteImport.update({
-  id: '/api/public/pi/reconcile',
-  path: '/api/public/pi/reconcile',
+const ApiPublicPiStatusRoute = ApiPublicPiStatusRouteImport.update({
+  id: '/api/public/pi/status',
+  path: '/api/public/pi/status',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicPiRewardsRoute = ApiPublicPiRewardsRouteImport.update({
@@ -200,9 +185,24 @@ const ApiPublicPiRewardsRoute = ApiPublicPiRewardsRouteImport.update({
   path: '/api/public/pi/rewards',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicPiStatusRoute = ApiPublicPiStatusRouteImport.update({
-  id: '/api/public/pi/status',
-  path: '/api/public/pi/status',
+const ApiPublicPiReconcileRoute = ApiPublicPiReconcileRouteImport.update({
+  id: '/api/public/pi/reconcile',
+  path: '/api/public/pi/reconcile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiIncompleteRoute = ApiPublicPiIncompleteRouteImport.update({
+  id: '/api/public/pi/incomplete',
+  path: '/api/public/pi/incomplete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
+  id: '/api/public/pi/complete',
+  path: '/api/public/pi/complete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
+  id: '/api/public/pi/approve',
+  path: '/api/public/pi/approve',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -445,102 +445,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/checkin': {
-      id: '/checkin'
-      path: '/checkin'
-      fullPath: '/checkin'
-      preLoaderRoute: typeof CheckinRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/community': {
-      id: '/community'
-      path: '/community'
-      fullPath: '/community'
-      preLoaderRoute: typeof CommunityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/entertainment': {
-      id: '/entertainment'
-      path: '/entertainment'
-      fullPath: '/entertainment'
-      preLoaderRoute: typeof EntertainmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/marketplace': {
-      id: '/marketplace'
-      path: '/marketplace'
-      fullPath: '/marketplace'
-      preLoaderRoute: typeof MarketplaceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/notifications': {
-      id: '/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof NotificationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/premium': {
-      id: '/premium'
-      path: '/premium'
-      fullPath: '/premium'
-      preLoaderRoute: typeof PremiumRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/staking': {
-      id: '/staking'
-      path: '/staking'
-      fullPath: '/staking'
-      preLoaderRoute: typeof StakingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/swap': {
-      id: '/swap'
-      path: '/swap'
-      fullPath: '/swap'
-      preLoaderRoute: typeof SwapRouteImport
+    '/wallet': {
+      id: '/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof WalletRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -550,11 +459,130 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/wallet': {
-      id: '/wallet'
-      path: '/wallet'
-      fullPath: '/wallet'
-      preLoaderRoute: typeof WalletRouteImport
+    '/swap': {
+      id: '/swap'
+      path: '/swap'
+      fullPath: '/swap'
+      preLoaderRoute: typeof SwapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staking': {
+      id: '/staking'
+      path: '/staking'
+      fullPath: '/staking'
+      preLoaderRoute: typeof StakingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/premium': {
+      id: '/premium'
+      path: '/premium'
+      fullPath: '/premium'
+      preLoaderRoute: typeof PremiumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entertainment': {
+      id: '/entertainment'
+      path: '/entertainment'
+      fullPath: '/entertainment'
+      preLoaderRoute: typeof EntertainmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkin': {
+      id: '/checkin'
+      path: '/checkin'
+      fullPath: '/checkin'
+      preLoaderRoute: typeof CheckinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pi-config': {
+      id: '/api/pi-config'
+      path: '/api/pi-config'
+      fullPath: '/api/pi-config'
+      preLoaderRoute: typeof ApiPiConfigRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin-config': {
+      id: '/_authenticated/admin-config'
+      path: '/admin-config'
+      fullPath: '/admin-config'
+      preLoaderRoute: typeof AuthenticatedAdminConfigRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/list-tools': {
@@ -564,53 +592,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.well-known/oauth-protected-resource': {
-      id: '/.well-known/oauth-protected-resource'
-      path: '/.well-known/oauth-protected-resource'
-      fullPath: '/.well-known/oauth-protected-resource'
-      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin-config': {
-      id: '/_authenticated/admin-config'
-      path: '/admin-config'
-      fullPath: '/admin-config'
-      preLoaderRoute: typeof AuthenticatedAdminConfigRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/api/pi-config': {
-      id: '/api/pi-config'
-      path: '/api/pi-config'
-      fullPath: '/api/pi-config'
-      preLoaderRoute: typeof ApiPiConfigRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.lovable/oauth/consent': {
-      id: '/.lovable/oauth/consent'
-      path: '/.lovable/oauth/consent'
-      fullPath: '/.lovable/oauth/consent'
-      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.mcp/invoke-tool/$tool': {
-      id: '/.mcp/invoke-tool/$tool'
-      path: '/.mcp/invoke-tool/$tool'
-      fullPath: '/.mcp/invoke-tool/$tool'
-      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/auth/pi': {
-      id: '/api/auth/pi'
-      path: '/api/auth/pi'
-      fullPath: '/api/auth/pi'
-      preLoaderRoute: typeof ApiAuthPiRouteImport
+    '/api/public/rewards-config': {
+      id: '/api/public/rewards-config'
+      path: '/api/public/rewards-config'
+      fullPath: '/api/public/rewards-config'
+      preLoaderRoute: typeof ApiPublicRewardsConfigRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/rates': {
@@ -620,39 +606,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicRatesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/rewards-config': {
-      id: '/api/public/rewards-config'
-      path: '/api/public/rewards-config'
-      fullPath: '/api/public/rewards-config'
-      preLoaderRoute: typeof ApiPublicRewardsConfigRouteImport
+    '/api/auth/pi': {
+      id: '/api/auth/pi'
+      path: '/api/auth/pi'
+      fullPath: '/api/auth/pi'
+      preLoaderRoute: typeof ApiAuthPiRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi/approve': {
-      id: '/api/public/pi/approve'
-      path: '/api/public/pi/approve'
-      fullPath: '/api/public/pi/approve'
-      preLoaderRoute: typeof ApiPublicPiApproveRouteImport
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi/complete': {
-      id: '/api/public/pi/complete'
-      path: '/api/public/pi/complete'
-      fullPath: '/api/public/pi/complete'
-      preLoaderRoute: typeof ApiPublicPiCompleteRouteImport
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi/incomplete': {
-      id: '/api/public/pi/incomplete'
-      path: '/api/public/pi/incomplete'
-      fullPath: '/api/public/pi/incomplete'
-      preLoaderRoute: typeof ApiPublicPiIncompleteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/pi/reconcile': {
-      id: '/api/public/pi/reconcile'
-      path: '/api/public/pi/reconcile'
-      fullPath: '/api/public/pi/reconcile'
-      preLoaderRoute: typeof ApiPublicPiReconcileRouteImport
+    '/api/public/pi/status': {
+      id: '/api/public/pi/status'
+      path: '/api/public/pi/status'
+      fullPath: '/api/public/pi/status'
+      preLoaderRoute: typeof ApiPublicPiStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/pi/rewards': {
@@ -662,11 +641,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiRewardsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi/status': {
-      id: '/api/public/pi/status'
-      path: '/api/public/pi/status'
-      fullPath: '/api/public/pi/status'
-      preLoaderRoute: typeof ApiPublicPiStatusRouteImport
+    '/api/public/pi/reconcile': {
+      id: '/api/public/pi/reconcile'
+      path: '/api/public/pi/reconcile'
+      fullPath: '/api/public/pi/reconcile'
+      preLoaderRoute: typeof ApiPublicPiReconcileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi/incomplete': {
+      id: '/api/public/pi/incomplete'
+      path: '/api/public/pi/incomplete'
+      fullPath: '/api/public/pi/incomplete'
+      preLoaderRoute: typeof ApiPublicPiIncompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi/complete': {
+      id: '/api/public/pi/complete'
+      path: '/api/public/pi/complete'
+      fullPath: '/api/public/pi/complete'
+      preLoaderRoute: typeof ApiPublicPiCompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi/approve': {
+      id: '/api/public/pi/approve'
+      path: '/api/public/pi/approve'
+      fullPath: '/api/public/pi/approve'
+      preLoaderRoute: typeof ApiPublicPiApproveRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

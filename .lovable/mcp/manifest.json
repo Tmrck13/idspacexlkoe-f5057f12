@@ -42,34 +42,35 @@
           "openWorldHint": false
         },
         "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "limit": {
+              "description": "How many entries to return (default 20, max 100).",
               "type": "integer",
-              "description": "How many entries to return (default 20, max 100)."
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
             },
             "currency": {
+              "description": "Filter by currency.",
               "type": "string",
               "enum": [
                 "pi",
                 "idpoints",
                 "cashback"
-              ],
-              "description": "Filter by currency."
+              ]
             },
             "status": {
+              "description": "Filter by status.",
               "type": "string",
               "enum": [
                 "pending",
                 "success",
                 "cancelled",
                 "failed"
-              ],
-              "description": "Filter by status."
+              ]
             }
-          },
-          "additionalProperties": false,
-          "$schema": "http://json-schema.org/draft-07/schema#"
+          }
         },
         "outputSchema": null
       },
@@ -83,15 +84,16 @@
           "openWorldHint": false
         },
         "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "limit": {
+              "description": "How many notifications to return (default 20, max 100).",
               "type": "integer",
-              "description": "How many notifications to return (default 20, max 100)."
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
             }
-          },
-          "additionalProperties": false,
-          "$schema": "http://json-schema.org/draft-07/schema#"
+          }
         },
         "outputSchema": null
       },
@@ -122,13 +124,15 @@
           "openWorldHint": false
         },
         "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "username": {
-              "type": "string",
-              "description": "New username (3-32 characters)."
+              "description": "New username (3-32 characters).",
+              "type": "string"
             },
             "avatar": {
+              "description": "New avatar image URL, or null to clear it.",
               "anyOf": [
                 {
                   "type": "string",
@@ -137,12 +141,9 @@
                 {
                   "type": "null"
                 }
-              ],
-              "description": "New avatar image URL, or null to clear it."
+              ]
             }
-          },
-          "additionalProperties": false,
-          "$schema": "http://json-schema.org/draft-07/schema#"
+          }
         },
         "outputSchema": null
       }
